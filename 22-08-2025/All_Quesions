@@ -1,0 +1,89 @@
+/*
+class Node
+{
+    int data;
+    Node left, right;
+
+    public Node(int d)
+    {
+        data = d;
+        left = right = null;
+    }
+}
+*/
+class Solution {
+    public static void helper(Node root,int l,int h,int c,ArrayList<Integer> list){
+        if(root==null)  return;
+        helper(root.left,l,h,c,list);
+        if(l<=root.data && root.data<=h)   list.add(1);
+       
+        helper(root.right,l,h,c,list);
+        
+    }
+    int getCount(Node root, int l, int h) {
+        // Your code here
+        ArrayList<Integer> list = new ArrayList<>();
+        helper(root,l,h,0,list);
+        return list.size();
+    }
+}
+class Solution {
+    // Function to find the nodes that are common in both BST.
+    public static void helper(Node r1, HashSet<Integer> set){
+        if(r1==null)  return;
+        helper(r1.left,set);
+        set.add(r1.data);
+        helper(r1.right,set);
+    }
+    public static void helper1(Node r2,HashSet<Integer> set,ArrayList<Integer> list){
+        if(r2==null)  return;
+        helper1(r2.left,set,list);
+        if(set.contains(r2.data)){
+            list.add(r2.data);
+        }
+        helper1(r2.right,set,list);
+    }
+    public static ArrayList<Integer> findCommon(Node r1, Node r2) {
+        // code here
+        HashSet<Integer> set = new HashSet<>();
+        ArrayList<Integer> list = new ArrayList<>();
+        helper(r1,set);
+        helper1(r2,set,list);
+        return list;
+    }
+}
+/*Structure of the Node of the BST is as
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int val) {
+        data = val;
+        left = right = null;
+    }
+}
+*/
+
+class Solution {
+    public static void helper(Node root1,HashSet<Integer> set){
+        if(root1==null)  return;
+        helper(root1.left,set);
+        set.add(root1.data);
+        helper(root1.right,set);
+    }
+    public static int helper1(Node root2,HashSet<Integer> set,int x){
+        if(root2==null)  return 0;
+        int c=0;
+        c+=helper1(root2.left,set,x);
+        if(set.contains(x-root2.data )) c++;
+        c+=helper1(root2.right,set,x);
+        return c;
+    } 
+    public static int countPairs(Node root1, Node root2, int x) {
+        // Code here
+        HashSet<Integer> set = new HashSet<>();
+        helper(root1,set);
+        return helper1(root2,set,x);
+    }
+}
